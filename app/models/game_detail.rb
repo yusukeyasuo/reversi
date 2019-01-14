@@ -1,0 +1,2 @@
+class GameDetail < ApplicationRecord
+end
