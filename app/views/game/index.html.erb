@@ -1,2 +1,5 @@
-<h2>game#index</h2>
-<%= link_to("スタート", "/game/play/1") %>
+<div class="text-center">
+  <%= link_to("/game/play/1") do %>
+    <button type="button" class="btn btn-info btn-lg">ゲーム開始</button>
+  <% end %>
+</div>
