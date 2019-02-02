@@ -1,85 +1,13 @@
+<% formation_array = JSON.parse(@game_detail.formation) %>
 <p class="text-center">黒32枚、白32枚で、引き分けです</p>
 <table class="reversi-table mx-auto" border="1">
-  <tr>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-  </tr>
-  <tr>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-  </tr>
-  <tr>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-  </tr>
-  <tr>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-  </tr>
-  <tr>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-  </tr>
-  <tr>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-  </tr>
-      <tr>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-  </tr>
-  <tr>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-    <td class="kouko">●</td>
-    <td class="senko">●</td>
-  </tr>
+  <% formation_array.each do |row| %>
+    <tr>
+      <% row.each do |square| %>
+        <td class="<%= square == 1 ? 'senko' : 'kouko' %>"><%= square.present? ? "●" : "　" %></td>
+      <% end %>
+    </tr>
+  <% end %>
 </table>
 <br />
 <div class="text-center">

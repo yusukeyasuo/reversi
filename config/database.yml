@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  database: reversi-dev
+  database: reversi-development
   username: root
   password:
 

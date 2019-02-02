@@ -3,6 +3,7 @@ class GameController < ApplicationController
     end
     
     def play
-      @id = params[:id]
+      @game_detail = GameDetail.find_by(game_id: params[:id])
+      pp @game_detail
     end
 end
