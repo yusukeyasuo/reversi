@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_124033) do
+ActiveRecord::Schema.define(version: 2019_02_02_124819) do
 
   create_table "game_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "game_id"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2019_01_14_124033) do
 
   create_table "games", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
-    t.integer "status"
-    t.boolean "senko"
+    t.integer "status", default: 0
+    t.boolean "senko", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_games_on_user_id"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 2019_01_14_124033) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.string "email"
+    t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
