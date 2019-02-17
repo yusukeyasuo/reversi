@@ -1,5 +1,13 @@
-<div class="text-center">
-  <%= link_to("/game/play/1") do %>
-    <button type="button" class="btn btn-info btn-lg">ゲーム開始</button>
-  <% end %>
-</div>
+<% if user_signed_in? %> <!-- ユーザーがログインしているか調べる -->
+  <div class="text-center">
+    <%= link_to("/game/play/1") do %>
+      <button type="button" class="btn btn-info btn-lg">ゲーム開始</button>
+    <% end %>
+  </div>
+  <%= link_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
+<% else %>
+  <!-- ユーザーがログインしていなかった時の処理 -->
+  <h2> 現在ログインしていません </h2>
+  <%= link_to "ログイン", new_user_session_path, class: 'post' %> <!-- ログイン画面に移行する -->
+  <%= link_to "新規登録", new_user_registration_path, class: 'post' %> <!-- 新規登録画面に移行する -->
+<% end %>

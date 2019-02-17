@@ -6,11 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# テストデータ
-if User.find_by(id: 1).nil?
-  user = User.new(id: 1, name: "プレイヤー1", email: "example@mail.com", password: "password")
-  user.save
-end
 
 # テストデータ
 if Game.find_by(id: 1).nil?
