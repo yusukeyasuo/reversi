@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root "game#index"
   get "game" => "game#index"
   get "game/play/:id" => "game#play"
+  post "game/create" => "game#create"
 end
