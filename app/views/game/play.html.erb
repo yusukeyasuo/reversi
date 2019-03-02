@@ -1,5 +1,9 @@
 <% formation_array = JSON.parse(@game_detail.formation) %>
-<p class="text-center">黒32枚、白32枚で、引き分けです</p>
+<% if @game.status == "playing" %>
+  <p class="text-center"><%= @game.senko ? "あなた" : "CPU" %>のターンです</p>
+<% else %>
+  <p class="text-center">あなた（黒）<%= @score[:senko] %>枚、CPU（白）<%= @score[:kouko] %>枚で、<%= @result %></p>
+ <% end %>
 <table class="reversi-table mx-auto" border="1">
   <% formation_array.each do |row| %>
     <tr>

@@ -27,7 +27,17 @@ class GameController < ApplicationController
     end
     
     def play
+      @game = Game.find_by(id: params[:id])
+      @score = @game.calc_score
+      @result = if @score[:senko] > @score[:kouko]
+                  "あなたの勝ちです"
+                elsif @score[:senko] < @score[:kouko]
+                  "CPUの勝ちです"
+                else
+                  "引き分けです"
+                end
       @game_detail = GameDetail.find_by(game_id: params[:id])
+      pp @game_detail
       if @game_detail.blank?
         redirect_to action: :index and return
       end
