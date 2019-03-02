@@ -2,7 +2,7 @@ class GameController < ApplicationController
     before_action :require_login
     
     def index
-      game = Game.find_by(status: "playing")
+      game = Game.find_by(user_id: current_user.id, status: "playing")
       if game.present?
         redirect_to action: :play, id: game.id and return
       end
