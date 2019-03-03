@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get "game" => "game#index"
   get "game/play/:id" => "game#play"
   post "game/create" => "game#create"
+  post "game/move/:id" => "game#move", as: 'move'
 end

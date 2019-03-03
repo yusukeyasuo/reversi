@@ -8,6 +8,12 @@ class GameController < ApplicationController
       end
     end
     
+    def move
+      pp "===> move"
+      pp params
+      redirect_to action: :index and return
+    end
+    
     def create
       # Game 作成
       game = Game.create!(

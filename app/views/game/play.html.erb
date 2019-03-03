@@ -5,10 +5,14 @@
   <p class="text-center">あなた（黒）<%= @score[:senko] %>枚、CPU（白）<%= @score[:kouko] %>枚で、<%= @result %></p>
  <% end %>
 <table class="reversi-table mx-auto" border="1">
-  <% formation_array.each do |row| %>
+  <% formation_array.each_with_index do |row, y| %>
     <tr>
-      <% row.each do |square| %>
-        <td class="<%= square == 1 ? 'senko' : 'kouko' %>"><%= square.present? ? "●" : "　" %></td>
+      <% row.each_with_index do |square, x| %>
+        <td class="<%= square == 1 ? 'senko' : 'kouko' %>">
+          <%= link_to(move_path(@game.id, params: {x: x, y: y}), method: 'post') do %>
+            <%= square.present? ? "●" : "　" %>
+          <% end %>
+        </td>
       <% end %>
     </tr>
   <% end %>
