@@ -11,7 +11,13 @@ class GameController < ApplicationController
     def move
       pp "===> move"
       pp params
-      redirect_to action: :index and return
+      game = Game.find_by(id: params[:id], user_id: current_user.id, status: "playing")
+      if game.blank?
+        redirect_to action: :index and return
+      end
+      game_service = GameService.new(game)
+      game_service.move(params[:x], params[:y])
+      redirect_to action: :play, id: game.id and return
     end
     
     def create
@@ -43,7 +49,6 @@ class GameController < ApplicationController
                   "引き分けです"
                 end
       @game_detail = GameDetail.find_by(game_id: params[:id])
-      pp @game_detail
       if @game_detail.blank?
         redirect_to action: :index and return
       end
