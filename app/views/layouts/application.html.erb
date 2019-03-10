@@ -26,6 +26,11 @@
     </nav>
     <br />
     <div class="container">
+      <% if flash[:notice] %>
+        <div class="alert alert-primary" role="alert">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
   </body>

@@ -9,14 +9,18 @@ class GameController < ApplicationController
     end
     
     def move
-      pp "===> move"
-      pp params
       game = Game.find_by(id: params[:id], user_id: current_user.id, status: "playing")
       if game.blank?
         redirect_to action: :index and return
       end
       game_service = GameService.new(game)
-      game_service.move(params[:x], params[:y])
+      movable = game_service.move(params[:x].to_i, params[:y].to_i)
+      if movable
+        flash[:notice] = "置けます"
+      else
+        flash[:notice] = "置けません"
+      end
+      
       redirect_to action: :play, id: game.id and return
     end
     
