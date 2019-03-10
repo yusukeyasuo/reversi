@@ -3,23 +3,34 @@ class GameService
   def initialize(game)
     @game = game
     @opponent = @game.senko ? 2 : 1
+    @me = @opponent == 1 ? 2 : 1
     @game_detail = game.latest_game_detail
     @formation_array = JSON.parse(@game_detail.formation)
   end
   
   # そのマスに置いた際のアクション
   def move(x, y)
-    pp "===> GameService.move: #{x}, #{y}"
-    # 置けるかの確認
-    movable = movable?(x, y) 
-
-    # TODO 置いた後のGameDetailを算出
+    # 隣のマスの一覧を取得
+    next_masses = next_masses(x, y)
     
-    movable
+    # 各方向にてひっくり返す
+    next_masses.each_with_index do |mass, i|
+      sandwitch(mass, i)
+    end
+    @formation_array[x][y] = @me
+    
+    # GameDetialを追加
+    game_detail = GameDetail.new(game_id: @game.id, formation: @formation_array.to_json)
+    game_detail.save
+    
+    # Gameを保存
+    @game.senko = !@game.senko
+    @game.save
   end
 
   # そのマスに置けるかどうかを判定する
   def movable?(x, y)
+    pp "=====> move: #{x}, #{y} =====>"
     # 隣のマスの一覧を取得
     next_masses = next_masses(x, y)
     
@@ -78,6 +89,30 @@ class GameService
       is_opponent = @formation_array[mass[:x]][mass[:y]].to_i == @opponent
     end
     true
+  end
+  
+  def sandwitch(mass, i)
+    get_masses = []
+    # マスがnil（枠外）ならfalseを返す
+    return if mass.nil?
+    # マスが自分と同じ石、または何も置かれていなければfalseを返す
+    is_opponent = @formation_array[mass[:x]][mass[:y]].to_i == @opponent
+    return unless is_opponent
+    get_masses << mass
+    
+    # 連続する石を確認
+    while is_opponent do
+      mass = next_mass(mass[:x], mass[:y], i)
+      # マスがnil（枠外）ならfalseを返す
+      return false if mass.nil?
+      # マスに何も置かれていなければfalseを返す
+      return false if @formation_array[mass[:x]][mass[:y]].nil?
+      is_opponent = @formation_array[mass[:x]][mass[:y]].to_i == @opponent
+      get_masses << mass
+    end
+    get_masses.each do |m|
+      @formation_array[m[:x]][m[:y]] = @me
+    end
   end
   
   def in_field?(x, y)
