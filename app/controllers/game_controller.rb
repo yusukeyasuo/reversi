@@ -14,9 +14,10 @@ class GameController < ApplicationController
         redirect_to action: :index and return
       end
       game_service = GameService.new(game)
-      movable = game_service.move(params[:x].to_i, params[:y].to_i)
+      movable = game_service.movable?(params[:x].to_i, params[:y].to_i)
       if movable
         flash[:notice] = "置けます"
+        game_service.move(params[:x].to_i, params[:y].to_i)
       else
         flash[:notice] = "置けません"
       end
@@ -52,7 +53,7 @@ class GameController < ApplicationController
                 else
                   "引き分けです"
                 end
-      @game_detail = GameDetail.find_by(game_id: params[:id])
+      @game_detail = @game.latest_game_detail
       if @game_detail.blank?
         redirect_to action: :index and return
       end
