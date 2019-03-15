@@ -16,7 +16,6 @@ class GameController < ApplicationController
       game_service = GameService.new(game)
       movable = game_service.movable?(params[:x].to_i, params[:y].to_i)
       if movable
-        flash[:notice] = "置けます"
         game_service.move(params[:x].to_i, params[:y].to_i)
       else
         flash[:notice] = "置けません"
