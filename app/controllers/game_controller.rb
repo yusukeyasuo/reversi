@@ -44,6 +44,12 @@ class GameController < ApplicationController
     
     def play
       @game = Game.find_by(id: params[:id])
+      @game_detail = @game.latest_game_detail
+      if @game_detail.blank?
+        redirect_to action: :index and return
+      end
+      @game = GameService.new(@game).judge_movable
+      
       @score = @game.calc_score
       @result = if @score[:senko] > @score[:kouko]
                   "あなたの勝ちです"
@@ -52,9 +58,5 @@ class GameController < ApplicationController
                 else
                   "引き分けです"
                 end
-      @game_detail = @game.latest_game_detail
-      if @game_detail.blank?
-        redirect_to action: :index and return
-      end
     end
 end
