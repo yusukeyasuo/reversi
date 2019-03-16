@@ -10,11 +10,15 @@ class GameController < ApplicationController
     
     def move
       game = Game.find_by(id: params[:id], user_id: current_user.id, status: "playing")
-      if game.blank?
+      if game.blank? || game.status == 'finished'
         redirect_to action: :index and return
       end
       game_service = GameService.new(game)
-      movable = game_service.movable?(params[:x].to_i, params[:y].to_i)
+      movable = if game.senko
+                  game_service.movable?(params[:x].to_i, params[:y].to_i)
+                else
+                  true
+                end
       if movable
         game_service.move(params[:x].to_i, params[:y].to_i)
       else

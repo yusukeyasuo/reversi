@@ -10,6 +10,10 @@ class GameService
   
   # そのマスに置いた際のアクション
   def move(x, y)
+    unless @game.senko
+      x, y = choice_cpu_move_mass
+    end
+
     return false if @formation_array[x][y].present?
     
     # 隣のマスの一覧を取得
@@ -28,6 +32,18 @@ class GameService
     # Gameを保存
     @game.senko = !@game.senko
     @game.save
+  end
+  
+  def choice_cpu_move_mass
+    movable_masses = []
+    8.times do |x|
+      8.times do |y|
+        movable_masses << { x: x, y: y } if movable?(x, y)
+      end
+    end
+    move_mass = movable_masses.sample
+    
+    return move_mass[:x], move_mass[:y]
   end
   
   def judge_movable
