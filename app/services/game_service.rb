@@ -10,6 +10,8 @@ class GameService
   
   # そのマスに置いた際のアクション
   def move(x, y)
+    return false if @formation_array[x][y].present?
+    
     # 隣のマスの一覧を取得
     next_masses = next_masses(x, y)
     
@@ -27,10 +29,40 @@ class GameService
     @game.senko = !@game.senko
     @game.save
   end
+  
+  def judge_movable
+    # 置く場所があるかチェックする
+    unless has_movable_masses?(@game.senko)
+      unless has_movable_masses?(!@game.senko)
+        # 両者置く場所がない場合はゲーム終了とする
+        @game.status = 'finished'
+        @game.save
+        return @game.reload
+      end
+      # Gameを保存
+      @game.save
+    end
+    @game.reload
+  end
+  
+  def has_movable_masses?(senko)
+    game = @game
+    game.senko = senko
+    service = GameService.new(game)
+    8.times do |x|
+      8.times do |y|
+        if service.movable?(x, y)
+          return true
+        end
+      end
+    end
+    false
+  end
 
   # そのマスに置けるかどうかを判定する
   def movable?(x, y)
-    pp "=====> move: #{x}, #{y} =====>"
+    # もともと置いてある場所には置けない
+    return false if @formation_array[x][y].present?
     # 隣のマスの一覧を取得
     next_masses = next_masses(x, y)
     

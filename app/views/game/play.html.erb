@@ -1,6 +1,6 @@
 <% formation_array = JSON.parse(@game_detail.formation) %>
 <% if @game.status == "playing" %>
-  <p class="text-center"><%= @game.senko ? "あなた" : "CPU" %>のターンです</p>
+  <p class="text-center"><%= @game.senko ? "あなた●" : "CPU○" %>のターンです</p>
 <% else %>
   <p class="text-center">あなた（黒）<%= @score[:senko] %>枚、CPU（白）<%= @score[:kouko] %>枚で、<%= @result %></p>
  <% end %>
